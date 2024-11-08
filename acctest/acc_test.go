@@ -15,6 +15,7 @@ import (
 
 var testFolders = []string{
 	filepath.Join("azurerm", "v3_v4"),
+	filepath.Join("azuread", "v2_v3"),
 }
 
 func Test_Transform(t *testing.T) {
