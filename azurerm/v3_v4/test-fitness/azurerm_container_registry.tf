@@ -20,6 +20,13 @@ resource "azurerm_container_registry" "acr" {
     tags                    = {}
     zone_redundancy_enabled = true
   }
+  network_rule_set {
+    default_action = "Allow"
+    virtual_network {
+      action    = "Allow"
+      subnet_id = azurerm_subnet.subnet.id
+    }
+  }
   retention_policy {
     days = var.azurerm_container_registry_rention_in_days
   }

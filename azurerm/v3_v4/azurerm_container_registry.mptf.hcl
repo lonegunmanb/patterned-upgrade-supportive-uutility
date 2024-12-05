@@ -47,12 +47,21 @@ transform "update_in_place" container_registry_with_regention_policy_dot_days_on
   ]
 }
 
+transform "remove_block_element" container_registry_network_rule_set_virtual_network {
+  for_each = var.azurerm_container_registry_toggle ? local.container_registry_resource_blocks_map : tomap({})
+  target_block_address = each.key
+  paths = ["network_rule_set.virtual_network"]
+  depends_on = [
+    transform.update_in_place.container_registry_with_regention_policy_dot_days_only,
+  ]
+}
+
 transform "remove_block_element" container_registry_with_regention_policy_dot_days_only {
   for_each             = var.azurerm_container_registry_toggle ? local.container_registry_with_regention_policy_dot_days_only : tomap({})
   target_block_address = each.key
   paths                = ["retention_policy"]
   depends_on = [
-    transform.update_in_place.container_registry_with_regention_policy_dot_days_only,
+    transform.remove_block_element.container_registry_network_rule_set_virtual_network,
   ]
 }
 
