@@ -26,6 +26,9 @@ resource "azurerm_container_registry" "acr" {
     tags                    = {}
     zone_redundancy_enabled = true
   }
+  network_rule_set {
+    default_action = "Allow"
+  }
 }
 
 locals {
